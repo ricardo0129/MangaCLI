@@ -103,7 +103,7 @@ func GetChapters(manga_id string, limit int, offset int, language string) []Chap
     return topLevel.Data
 }
 
-func AllChapters(manga_id string, language string) []Chapter {
+func GetAllChapters(manga_id string, language string) []Chapter {
     var all_chapters []Chapter
     limit := 100
     offset := 0
