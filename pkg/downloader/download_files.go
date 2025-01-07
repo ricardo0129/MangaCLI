@@ -6,7 +6,7 @@ import (
     "net/http"
 )
 
-func downloadImage(url string) ([]byte, error) {
+func DownloadImage(url string) ([]byte, error) {
     res, err := http.Get(url)
     if err != nil {
         return nil, err
@@ -23,7 +23,7 @@ func DownloadFiles(urls []string) []Page {
     var pages []Page
     for i, url := range urls {
         var page Page
-        image , _ := downloadImage(url)
+        image , _ := DownloadImage(url)
         page.Data = image
         page.Page = uint(i)
         pages = append(pages, page)

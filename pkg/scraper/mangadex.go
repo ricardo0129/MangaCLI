@@ -27,6 +27,14 @@ type Chapter struct {
     }
 }
 
+type ChapterData struct {
+    Result string 
+    BaseUrl string 
+    Chapter struct {
+        Hash string 
+        Data []string 
+    } 
+}
 
 func SearchTitle(title string) []Manga {
     url := "https://api.mangadex.org/manga"
@@ -42,25 +50,14 @@ func SearchTitle(title string) []Manga {
     }
     defer res.Body.Close()
 
-    body, err := io.ReadAll(res.Body)
-
-    if err != nil {
-        return nil
-    }
+    body, _ := io.ReadAll(res.Body)
 
     type TopLevel struct {
         Data []Manga
     }
 
     var topLevel TopLevel
-    err = json.Unmarshal(body, &topLevel)
-
-
-    if err != nil {
-        fmt.Println(err)
-        return nil
-    }
-
+    json.Unmarshal(body, &topLevel)
     return topLevel.Data
 }
 
@@ -78,11 +75,8 @@ func GetChapters(manga_id string, limit int, offset int, language string) []Chap
     }
 
     req.URL.RawQuery = q.Encode()
-    res, err := http.Get(req.URL.String())
+    res, _ := http.Get(req.URL.String())
 
-    if err != nil {
-        fmt.Println(err)
-    }
     defer res.Body.Close()
 
     body, err := io.ReadAll(res.Body)
@@ -95,10 +89,7 @@ func GetChapters(manga_id string, limit int, offset int, language string) []Chap
     }
 
     var topLevel TopLevel
-    err = json.Unmarshal(body, &topLevel)
-    if err != nil {
-        fmt.Println(err)
-    }
+    json.Unmarshal(body, &topLevel)
 
     return topLevel.Data
 }
@@ -131,15 +122,6 @@ func DownloadChapter(chapter_id string, outputFileName string) {
     body, err := io.ReadAll(res.Body)
     if err != nil {
         fmt.Println(err)
-    }
-
-    type ChapterData struct {
-        Result string 
-        BaseUrl string 
-        Chapter struct {
-            Hash string 
-            Data []string 
-        } 
     }
 
     var chapterData ChapterData

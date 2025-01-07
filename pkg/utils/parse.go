@@ -23,3 +23,12 @@ func ParseRange(str string) [][]int {
     }
     return ranges
 }
+
+func InsideRange(ranges [][]int, val int) bool {
+    for _, r := range ranges {
+        if val >= r[0] && val <= r[1] {
+            return true
+        }
+    }
+    return false
+}
